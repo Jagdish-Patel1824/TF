@@ -1,0 +1,32 @@
+- name: Ansible Pipeline
+  hosts: all
+  become: yes
+
+  tasks:
+     - name: Install Java
+       apt:
+         name: openjdk-17-jdk
+         state: present
+         update_cache: yes
+     
+     - name: Create app directory
+       file:
+        path: /home/ubuntu/contact-app
+        state: directory
+
+     - name: copy files
+       copy:
+          src: ../target/*.war
+          dest: /home/ubuntu/contact-app/addressbook.war
+
+     - name: Run App
+       service:
+          name: 
+          state: started
+          enabled: yes 
+
+     - name: Stop old app if running
+       shell: "pkill -f addressbook.war || true"
+
+     - name: Run app
+       shell: "nohup java -jar /home/ubuntu/contact-app/addressbook.war > app.log 2>&1 &" 
