@@ -16,14 +16,8 @@
 
      - name: copy files
        copy:
-          src: ../target/*.war
+          src: /Users/jagdish/.jenkins/workspace/AddressBook/target/*.war
           dest: /home/ubuntu/contact-app/addressbook.war
-
-     - name: Run App
-       service:
-          name: 
-          state: started
-          enabled: yes 
 
      - name: Stop old app if running
        shell: "pkill -f addressbook.war || true"
